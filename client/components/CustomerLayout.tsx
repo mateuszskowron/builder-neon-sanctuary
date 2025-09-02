@@ -220,7 +220,7 @@ export function CustomerLayout({ children }: { children: React.ReactNode }) {
                       isActive={isActiveRoute(item.url)}
                       tooltip={item.title}
                     >
-                      <Link to={item.url}>
+                      <Link to={item.url} className="flex items-center gap-2 justify-start">
                         <item.icon className="h-4 w-4" />
                         <span>{item.title}</span>
                       </Link>
