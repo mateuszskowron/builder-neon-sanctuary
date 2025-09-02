@@ -57,6 +57,22 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Professional color extensions
+        success: {
+          DEFAULT: "hsl(142 71% 45%)",
+          foreground: "hsl(140 10% 97%)",
+          light: "hsl(142 71% 85%)",
+        },
+        warning: {
+          DEFAULT: "hsl(38 92% 50%)",
+          foreground: "hsl(48 10% 10%)",
+          light: "hsl(38 92% 85%)",
+        },
+        info: {
+          DEFAULT: "hsl(220 91% 58%)",
+          foreground: "hsl(220 9% 97%)",
+          light: "hsl(220 91% 85%)",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
