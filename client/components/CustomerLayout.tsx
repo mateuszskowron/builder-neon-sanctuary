@@ -1,21 +1,7 @@
 import { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import {
-  Building2,
-  Calendar,
-  FileText,
-  Home,
-  Receipt,
-  ShoppingCart,
-  User,
-  Bell,
-  CreditCard,
-  MessageCircle,
-  Settings,
-  HelpCircle,
-  BarChart3,
-  Shield,
-} from "lucide-react";
+import { Building2, User, Bell } from "lucide-react";
+import { getPluginsBySection, sectionsOrder } from "@/plugins/registry";
 
 import {
   Sidebar,
@@ -44,84 +30,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-interface MenuItem {
-  title: string;
-  url: string;
-  icon: React.ComponentType<{ className?: string }>;
-  badge?: string;
-}
-
-const mainMenuItems: MenuItem[] = [
-  {
-    title: "Panel główny",
-    url: "/",
-    icon: Home,
-  },
-  {
-    title: "Moje sprawy",
-    url: "/cases",
-    icon: FileText,
-    badge: "3",
-  },
-  {
-    title: "Moje faktury",
-    url: "/invoices",
-    icon: Receipt,
-  },
-  {
-    title: "Kalendarz",
-    url: "/calendar",
-    icon: Calendar,
-  },
-  {
-    title: "Zamówienia",
-    url: "/orders",
-    icon: ShoppingCart,
-    badge: "2",
-  },
-];
-
-const additionalItems: MenuItem[] = [
-  {
-    title: "Centrum płatności",
-    url: "/payments",
-    icon: CreditCard,
-  },
-  {
-    title: "Raporty i analityka",
-    url: "/analytics",
-    icon: BarChart3,
-  },
-  {
-    title: "Komunikacja",
-    url: "/messages",
-    icon: MessageCircle,
-    badge: "5",
-  },
-  {
-    title: "Bezpieczeństwo",
-    url: "/security",
-    icon: Shield,
-  },
-];
-
-const supportItems: MenuItem[] = [
-  {
-    title: "Ustawienia",
-    url: "/settings",
-    icon: Settings,
-  },
-  {
-    title: "Profil klienta",
-    url: "/profile",
-    icon: User,
-  },
-  {
-    title: "Pomoc i wsparcie",
-    url: "/support",
-    icon: HelpCircle,
-  },
-];
 
 export function CustomerLayout({ children }: { children: React.ReactNode }) {
   const [notifications] = useState(7);
@@ -149,87 +57,43 @@ export function CustomerLayout({ children }: { children: React.ReactNode }) {
         </SidebarHeader>
 
         <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupLabel>Menu główne</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {mainMenuItems.map((item) => (
-                  <SidebarMenuItem key={item.url}>
-                    <SidebarMenuButton
-                      asChild
-                      isActive={isActiveRoute(item.url)}
-                      tooltip={item.title}
-                    >
-                      <Link to={item.url}>
-                        <item.icon className="h-4 w-4" />
-                        <span>{item.title}</span>
-                        {item.badge && (
-                          <Badge
-                            variant="secondary"
-                            className="ml-auto h-5 w-5 rounded-full p-0 text-xs"
-                          >
-                            {item.badge}
-                          </Badge>
-                        )}
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-
-          <SidebarGroup>
-            <SidebarGroupLabel>Usługi dodatkowe</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {additionalItems.map((item) => (
-                  <SidebarMenuItem key={item.url}>
-                    <SidebarMenuButton
-                      asChild
-                      isActive={isActiveRoute(item.url)}
-                      tooltip={item.title}
-                    >
-                      <Link to={item.url}>
-                        <item.icon className="h-4 w-4" />
-                        <span>{item.title}</span>
-                        {item.badge && (
-                          <Badge
-                            variant="destructive"
-                            className="ml-auto h-5 w-5 rounded-full p-0 text-xs"
-                          >
-                            {item.badge}
-                          </Badge>
-                        )}
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-
-          <SidebarGroup>
-            <SidebarGroupLabel>Konto</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {supportItems.map((item) => (
-                  <SidebarMenuItem key={item.url}>
-                    <SidebarMenuButton
-                      asChild
-                      isActive={isActiveRoute(item.url)}
-                      tooltip={item.title}
-                    >
-                      <Link to={item.url} className="flex items-center gap-2 justify-start">
-                        <item.icon className="h-4 w-4" />
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
+          {sectionsOrder.map((section) => {
+            const sectionPlugins = getPluginsBySection(section.key).filter(
+              (p) => p.showInSidebar,
+            );
+            if (sectionPlugins.length === 0) return null;
+            return (
+              <SidebarGroup key={section.key}>
+                <SidebarGroupLabel>{section.label}</SidebarGroupLabel>
+                <SidebarGroupContent>
+                  <SidebarMenu>
+                    {sectionPlugins.map((p) => (
+                      <SidebarMenuItem key={p.id}>
+                        <SidebarMenuButton
+                          asChild
+                          isActive={isActiveRoute(p.path)}
+                          tooltip={p.title}
+                        >
+                          <Link to={p.path} className="flex items-center gap-2 justify-start">
+                            <p.icon className="h-4 w-4" />
+                            <span>{p.title}</span>
+                            {p.badge != null && (
+                              <Badge
+                                variant={section.key === "extra" ? "destructive" : "secondary"}
+                                className="ml-auto h-5 w-5 rounded-full p-0 text-xs"
+                              >
+                                {p.badge}
+                              </Badge>
+                            )}
+                          </Link>
+                        </SidebarMenuButton>
+                      </SidebarMenuItem>
+                    ))}
+                  </SidebarMenu>
+                </SidebarGroupContent>
+              </SidebarGroup>
+            );
+          })}
         </SidebarContent>
 
         <SidebarFooter>
