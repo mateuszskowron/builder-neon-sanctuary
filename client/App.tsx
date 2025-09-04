@@ -5,24 +5,13 @@ import { createRoot } from "react-dom/client";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 
 // Layout
 import { CustomerLayout } from "@/components/CustomerLayout";
 
-// Pages
-import Dashboard from "./pages/Dashboard";
-import Cases from "./pages/Cases";
-import Invoices from "./pages/Invoices";
-import CalendarPage from "./pages/CalendarPage";
-import Orders from "./pages/Orders";
-import Profile from "./pages/Profile";
-import Payments from "./pages/Payments";
-import Analytics from "./pages/Analytics";
-import Messages from "./pages/Messages";
-import Security from "./pages/Security";
-import Settings from "./pages/Settings";
-import Support from "./pages/Support";
+// Plugin system
+import { plugins } from "@/plugins/registry";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
