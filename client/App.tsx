@@ -23,111 +23,17 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route 
-            path="/" 
-            element={
-              <CustomerLayout>
-                <Dashboard />
-              </CustomerLayout>
-            } 
-          />
-          <Route 
-            path="/cases" 
-            element={
-              <CustomerLayout>
-                <Cases />
-              </CustomerLayout>
-            } 
-          />
-          <Route 
-            path="/invoices" 
-            element={
-              <CustomerLayout>
-                <Invoices />
-              </CustomerLayout>
-            } 
-          />
-          <Route 
-            path="/calendar" 
-            element={
-              <CustomerLayout>
-                <CalendarPage />
-              </CustomerLayout>
-            } 
-          />
-          <Route 
-            path="/orders" 
-            element={
-              <CustomerLayout>
-                <Orders />
-              </CustomerLayout>
-            } 
-          />
-          <Route 
-            path="/payments" 
-            element={
-              <CustomerLayout>
-                <Payments />
-              </CustomerLayout>
-            } 
-          />
-          <Route 
-            path="/analytics" 
-            element={
-              <CustomerLayout>
-                <Analytics />
-              </CustomerLayout>
-            } 
-          />
-          <Route 
-            path="/messages" 
-            element={
-              <CustomerLayout>
-                <Messages />
-              </CustomerLayout>
-            } 
-          />
-          <Route 
-            path="/security" 
-            element={
-              <CustomerLayout>
-                <Security />
-              </CustomerLayout>
-            } 
-          />
-          <Route 
-            path="/settings" 
-            element={
-              <CustomerLayout>
-                <Settings />
-              </CustomerLayout>
-            } 
-          />
-          <Route 
-            path="/profile" 
-            element={
-              <CustomerLayout>
-                <Profile />
-              </CustomerLayout>
-            } 
-          />
-          <Route 
-            path="/support" 
-            element={
-              <CustomerLayout>
-                <Support />
-              </CustomerLayout>
-            } 
-          />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route 
-            path="*" 
-            element={
-              <CustomerLayout>
-                <NotFound />
-              </CustomerLayout>
-            } 
-          />
+          <Route element={<CustomerLayout><Outlet /></CustomerLayout>}>
+            {plugins.map((p) => {
+              const Element = p.Component;
+              if (p.path === "/") {
+                return <Route index element={<Element />} key={p.id} />;
+              }
+              const childPath = p.path.replace(/^\//, "");
+              return <Route path={childPath} element={<Element />} key={p.id} />;
+            })}
+            <Route path="*" element={<NotFound />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
