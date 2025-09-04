@@ -30,7 +30,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-
 export function CustomerLayout({ children }: { children: React.ReactNode }) {
   const [notifications] = useState(7);
   const location = useLocation();
@@ -51,7 +50,9 @@ export function CustomerLayout({ children }: { children: React.ReactNode }) {
             </div>
             <div className="flex flex-col">
               <span className="text-sm font-semibold">Panel Klienta</span>
-              <span className="text-xs text-muted-foreground">Professional</span>
+              <span className="text-xs text-muted-foreground">
+                Professional
+              </span>
             </div>
           </div>
         </SidebarHeader>
@@ -74,12 +75,19 @@ export function CustomerLayout({ children }: { children: React.ReactNode }) {
                           isActive={isActiveRoute(p.path)}
                           tooltip={p.title}
                         >
-                          <Link to={p.path} className="flex items-center gap-2 justify-start">
+                          <Link
+                            to={p.path}
+                            className="flex items-center gap-2 justify-start"
+                          >
                             <p.icon className="h-4 w-4" />
                             <span>{p.title}</span>
                             {p.badge != null && (
                               <Badge
-                                variant={section.key === "extra" ? "destructive" : "secondary"}
+                                variant={
+                                  section.key === "extra"
+                                    ? "destructive"
+                                    : "secondary"
+                                }
                                 className="ml-auto h-5 w-5 rounded-full p-0 text-xs"
                               >
                                 {p.badge}
@@ -101,14 +109,21 @@ export function CustomerLayout({ children }: { children: React.ReactNode }) {
             <SidebarMenuItem>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <SidebarMenuButton size="lg" className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+                  <SidebarMenuButton
+                    size="lg"
+                    className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                  >
                     <Avatar className="h-8 w-8 rounded-lg">
                       <AvatarImage src="/placeholder.svg" alt="Jan Kowalski" />
                       <AvatarFallback className="rounded-lg">JK</AvatarFallback>
                     </Avatar>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold">Jan Kowalski</span>
-                      <span className="truncate text-xs">jan.kowalski@example.com</span>
+                      <span className="truncate font-semibold">
+                        Jan Kowalski
+                      </span>
+                      <span className="truncate text-xs">
+                        jan.kowalski@example.com
+                      </span>
                     </div>
                   </SidebarMenuButton>
                 </DropdownMenuTrigger>
@@ -121,12 +136,21 @@ export function CustomerLayout({ children }: { children: React.ReactNode }) {
                   <DropdownMenuLabel className="p-0 font-normal">
                     <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                       <Avatar className="h-8 w-8 rounded-lg">
-                        <AvatarImage src="/placeholder.svg" alt="Jan Kowalski" />
-                        <AvatarFallback className="rounded-lg">JK</AvatarFallback>
+                        <AvatarImage
+                          src="/placeholder.svg"
+                          alt="Jan Kowalski"
+                        />
+                        <AvatarFallback className="rounded-lg">
+                          JK
+                        </AvatarFallback>
                       </Avatar>
                       <div className="grid flex-1 text-left text-sm leading-tight">
-                        <span className="truncate font-semibold">Jan Kowalski</span>
-                        <span className="truncate text-xs">jan.kowalski@example.com</span>
+                        <span className="truncate font-semibold">
+                          Jan Kowalski
+                        </span>
+                        <span className="truncate text-xs">
+                          jan.kowalski@example.com
+                        </span>
                       </div>
                     </div>
                   </DropdownMenuLabel>
@@ -144,9 +168,7 @@ export function CustomerLayout({ children }: { children: React.ReactNode }) {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    Wyloguj się
-                  </DropdownMenuItem>
+                  <DropdownMenuItem>Wyloguj się</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </SidebarMenuItem>
@@ -161,7 +183,7 @@ export function CustomerLayout({ children }: { children: React.ReactNode }) {
             <div className="h-4 w-px bg-border" />
             <h1 className="text-lg font-semibold">Panel Klienta</h1>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" className="relative">
               <Bell className="h-4 w-4" />
@@ -178,9 +200,7 @@ export function CustomerLayout({ children }: { children: React.ReactNode }) {
           </div>
         </header>
 
-        <main className="flex-1 overflow-auto p-6">
-          {children}
-        </main>
+        <main className="flex-1 overflow-auto p-6">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

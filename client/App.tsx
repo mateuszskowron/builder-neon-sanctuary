@@ -23,14 +23,22 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route element={<CustomerLayout><Outlet /></CustomerLayout>}>
+          <Route
+            element={
+              <CustomerLayout>
+                <Outlet />
+              </CustomerLayout>
+            }
+          >
             {plugins.map((p) => {
               const Element = p.Component;
               if (p.path === "/") {
                 return <Route index element={<Element />} key={p.id} />;
               }
               const childPath = p.path.replace(/^\//, "");
-              return <Route path={childPath} element={<Element />} key={p.id} />;
+              return (
+                <Route path={childPath} element={<Element />} key={p.id} />
+              );
             })}
             <Route path="*" element={<NotFound />} />
           </Route>
