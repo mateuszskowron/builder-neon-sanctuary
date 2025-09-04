@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { Building2, User, Bell } from "lucide-react";
+import { Building2, User, Bell, Settings } from "lucide-react";
 import { getPluginsBySection, sectionsOrder } from "@/plugins/registry";
 
 import {
